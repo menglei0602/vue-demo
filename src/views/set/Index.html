@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div style="color:red;">改变数组第1位为a，直接vm.test[0] = 'a' 不能生效，需要使用vm.$set(vm.test,0,'a')</div>
+        <ul>
+            <li v-for="item of test">
+                {{item}}
+            </li>
+        </ul>
+    </div>
+    <!-- vue生命周期钩子 -->
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                test: [1,2,3,4]
+            }
+        });
+
+    </script>
+</body>
+
+</html>

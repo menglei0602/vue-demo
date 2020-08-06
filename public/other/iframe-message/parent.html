@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iframe父子窗口通信</title>
+</head>
+
+<body>
+    <h1>iframe父子窗口通信，请查看控制台</h1>
+    <!-- <iframe id="iframe" src="http://localhost:8080/iframe-message/child.html" frameborder="0"></iframe> -->
+    <script>
+        const ip = location.host;
+        let newIframe = document.createElement("iframe");
+        newIframe.src = `http://${ip}/iframe-message/child.html`;
+        newIframe.id = "iframe";
+        newIframe.frameborder = "0";
+        document.body.appendChild(newIframe);
+        let iframeDom = document.getElementById('iframe');
+        window.addEventListener('message', function (event) {
+            if(event.origin !== 'http://' + ip){
+                console.info("非法子窗口！");
+                return;
+            }
+            if(event.data !== "getData"){
+                console.info("非法参数:", event.data);
+                return;
+            }
+
+            var data = {
+                name: {
+                    xiaoming: 5
+                }
+            };
+            alert("即将向子窗口发送数据：", data);
+            iframeDom.contentWindow.postMessage(JSON.stringify(data), 'http://' + ip);
+        }, false);
+    </script>
+</body>
+
+</html>

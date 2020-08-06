@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="bt">获取数据</button>
+    <script>
+        const ip = location.host;
+        if (window.top === window.self) {
+           location.href = "/iframe-message/parent.html";
+        }
+        function getParent() {
+            alert("即将向父窗口获取数据");
+            window.parent.postMessage("getData", 'http://' + ip);
+        }
+        window.addEventListener('message', function (e) {
+            if (event.origin !== 'http://' + ip) {
+                console.info("非法父窗口！");
+                return;
+            }
+            try {
+                var data = JSON.parse(e.data);
+            } catch (error) {
+                console.log("父页面返回的数据格式有问题：", error);
+            }
+            if (data) {
+                console.log(data);
+            }
+        }, false);
+        getParent();
+        document.getElementById("bt").addEventListener("click", getParent);
+    </script>
+</body>
+
+</html>
